@@ -56,19 +56,33 @@ cd client && npm run dev
 - App: http://localhost:5173
 - Health check: http://localhost:5000/api/v1/health
 
-The health check upserts one `HealthPing` document. The home page shows that write so you can confirm frontend, API, and database in one place.
+`GET /api/v1/health` upserts one `HealthPing` document.
 
-## Phase 0 libraries outside the product table
+## Auth
 
-These are required to boot the pipeline. They are not product features.
+Copy `server/.env.example` to `server/.env` and set two long random values:
 
-- `dotenv` — load `.env` (secrets stay out of source)
+- `ACCESS_TOKEN_SECRET`
+- `REFRESH_TOKEN_SECRET`
+
+Access tokens last 15 minutes and stay in memory. The refresh token is an httpOnly cookie for 7 days. Reloading the app calls `POST /api/v1/auth/refresh`.
+
+There is no email provider yet. Registration prints a verification link in the API terminal. Open that link, then sign in.
+
+Google sign-in is implemented and stays off until `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` are set. The callback URL must be `http://localhost:5000/api/v1/auth/google/callback`.
+
+## Libraries outside the product table
+
+These are required to run the app. They are not extra product features.
+
+- `dotenv` — load `.env`
 - `cors` — allow the Vite app to call the API
 - `nodemon` — restart the API during development
-- `eslint`, `prettier`, and the React ESLint plugins — required by the project setup
+- `cookie-parser` — read the httpOnly refresh cookie
+- `eslint`, `prettier`, and the React ESLint plugins — project setup
 
-Product libraries from the stack (React Router, TanStack Query, Zustand, Tailwind, Passport, Stripe, Cloudinary, Socket.IO) are added in the phase that needs them.
+React Router, TanStack Query, Zustand, Tailwind, bcrypt, JWT, and Passport are part of the stack and are used for auth. Stripe, Cloudinary, and Socket.IO wait for later phases.
 
 ## Current status
 
-Phase 0 is in place: the React app can call `GET /api/v1/health`, and that route reads and writes one MongoDB document.
+Phase 1: a person can register as a backer, a founder, or both, verify email from the API console, sign in, stay signed in across a reload, and log out. An account can also gain the founder role later.
