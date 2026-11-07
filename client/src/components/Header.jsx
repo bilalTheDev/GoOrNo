@@ -19,9 +19,17 @@ export default function Header() {
       <Link to="/" className="font-serif text-2xl tracking-tight">
         Go<span className="text-[#0f7a45]">Or</span>No
       </Link>
-      <nav className="flex items-center gap-3 text-sm">
+      <nav className="flex flex-wrap items-center justify-end gap-2 text-sm">
+        <Link to="/explore" className="px-2 py-2">
+          Explore
+        </Link>
         {user ? (
           <>
+            {user.roles?.includes('founder') ? (
+              <Link to="/my-pitches" className="px-2 py-2">
+                Pitches
+              </Link>
+            ) : null}
             <Link to="/account" className="px-2 py-2">
               Account
             </Link>

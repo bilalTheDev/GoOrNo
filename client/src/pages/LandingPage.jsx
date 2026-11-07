@@ -41,6 +41,9 @@ export default function LandingPage() {
         >
           Launch your idea
         </Link>
+        <Link to="/explore" className="rounded-full px-5 py-3 text-sm font-semibold">
+          Browse ideas
+        </Link>
       </div>
       <section className="mt-14 grid gap-4 sm:grid-cols-3">
         {points.map((point) => (

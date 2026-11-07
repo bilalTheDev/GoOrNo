@@ -81,8 +81,14 @@ These are required to run the app. They are not extra product features.
 - `cookie-parser` — read the httpOnly refresh cookie
 - `eslint`, `prettier`, and the React ESLint plugins — project setup
 
-React Router, TanStack Query, Zustand, Tailwind, bcrypt, JWT, and Passport are part of the stack and are used for auth. Stripe, Cloudinary, and Socket.IO wait for later phases.
+- `multer` — accept pitch image uploads
+
+React Router, TanStack Query, Zustand, Tailwind, bcrypt, JWT, Passport, and Cloudinary are part of the stack. Pitch images go to Cloudinary when `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, and `CLOUDINARY_API_SECRET` are set. Otherwise they are stored in `server/uploads` and served by the API. Stripe and Socket.IO wait for later phases.
+
+Description text is stored as plain text. A rich-text editor is not part of the stack, so the composer is a textarea and the detail page keeps paragraph breaks.
+
+Trending currently sorts by up votes, then fewer down votes, then newest. The recency-and-velocity score is a later stretch goal. With no votes yet, trending matches newest.
 
 ## Current status
 
-Phase 1: a person can register as a backer, a founder, or both, verify email from the API console, sign in, stay signed in across a reload, and log out. An account can also gain the founder role later.
+Phase 2: a verified founder can publish a pitch with images. Live pitches appear on Explore and on their own page. Drafts stay private to the founder. Voting is not wired up yet.

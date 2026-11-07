@@ -1,4 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { Link } from 'react-router-dom'
 import { api } from '../api/client.js'
 import { Button } from '../components/FormControls.jsx'
 import { useAuthStore } from '../store/authStore.js'
@@ -83,7 +84,12 @@ export default function AccountPage() {
               ) : null}
             </div>
           )}
-          {user.roles.includes('founder') ? null : (
+          {user.roles.includes('founder') ? (
+            <div className="mt-5 flex gap-3 border-t border-[#efe8dc] pt-4 text-sm font-semibold">
+              <Link to="/pitches/new">New pitch</Link>
+              <Link to="/my-pitches">Your pitches</Link>
+            </div>
+          ) : (
             <div className="mt-5 border-t border-[#efe8dc] pt-4">
               <p className="text-sm">
                 Want to post a pitch later? Add the founder role to this account.

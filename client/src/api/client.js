@@ -20,7 +20,8 @@ export class ApiError extends Error {
 
 export async function api(path, { method = 'GET', body, auth = false } = {}) {
   const headers = {}
-  if (body !== undefined) headers['Content-Type'] = 'application/json'
+  const isForm = typeof FormData !== 'undefined' && body instanceof FormData
+  if (body !== undefined && !isForm) headers['Content-Type'] = 'application/json'
   if (auth) {
     const token = readAccessToken()
     if (token) headers.Authorization = `Bearer ${token}`
@@ -30,7 +31,7 @@ export async function api(path, { method = 'GET', body, auth = false } = {}) {
     method,
     headers,
     credentials: 'include',
-    body: body !== undefined ? JSON.stringify(body) : undefined,
+    body: body === undefined ? undefined : isForm ? body : JSON.stringify(body),
   })
 
   const payload = await response.json().catch(() => ({}))

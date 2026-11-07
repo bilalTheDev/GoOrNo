@@ -6,8 +6,10 @@ import passport from 'passport'
 import { clientUrl } from './config/auth.js'
 import { connectDB } from './config/db.js'
 import { configurePassport } from './config/passport.js'
+import { uploadDir } from './middleware/uploadImages.js'
 import authRouter from './routes/auth.routes.js'
 import healthRouter from './routes/health.routes.js'
+import pitchRouter from './routes/pitch.routes.js'
 import userRouter from './routes/user.routes.js'
 
 dotenv.config()
@@ -34,10 +36,12 @@ app.use(
 app.use(express.json())
 app.use(cookieParser())
 app.use(passport.initialize())
+app.use('/uploads', express.static(uploadDir))
 
 app.use('/api/v1/health', healthRouter)
 app.use('/api/v1/auth', authRouter)
 app.use('/api/v1/users', userRouter)
+app.use('/api/v1/pitches', pitchRouter)
 
 app.use((req, res) => {
   res.status(404).json({ success: false, message: 'Route not found' })
